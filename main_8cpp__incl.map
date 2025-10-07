@@ -1,0 +1,18 @@
+<map id="src/main.cpp" name="src/main.cpp">
+<area shape="rect" id="Node000001" title="Демонстрация бесконечной разреженной матрицы." alt="" coords="70,5,175,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,79,85,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,33,70,71,66,67,108,29"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="81,152,135,177"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="124,31,113,139,108,138,119,31"/>
+<area shape="rect" id="Node000004" href="$matrix_8hpp.html" title="Бесконечная 2D разреженная матрица с Proxy (Заместитель)." alt="" coords="190,79,330,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="146,28,227,70,224,75,144,33"/>
+<area shape="poly" id="edge6_Node000004_Node000003" title=" " alt="" coords="237,106,146,149,144,144,234,102"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="160,152,227,177"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="251,106,215,144,212,140,247,103"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="251,152,301,177"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="265,104,273,138,268,139,260,105"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="326,152,418,177"/>
+<area shape="poly" id="edge7_Node000004_Node000007" title=" " alt="" coords="279,102,343,142,340,147,277,106"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="442,152,513,177"/>
+<area shape="poly" id="edge8_Node000004_Node000008" title=" " alt="" coords="296,101,430,145,428,150,294,107"/>
+</map>
