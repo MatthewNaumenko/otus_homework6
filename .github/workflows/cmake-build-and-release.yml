@@ -1,0 +1,108 @@
+name: cmake-build-and-release
+
+on:
+  push:
+    branches: [ main, master ]
+    tags:     [ 'v*.*.*' ]
+  pull_request:
+
+jobs:
+  build:
+    name: Build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build --config Release --parallel
+
+      - name: Smoke run (Unix)
+        if: runner.os != 'Windows'
+        run: ./build/sparse_matrix_demo
+
+      - name: Smoke run (Windows)
+        if: runner.os == 'Windows'
+        run: build/Release/sparse_matrix_demo.exe
+
+      - name: Package artifact
+        shell: bash
+        run: |
+          set -eux
+          mkdir -p pack
+          if [[ "${{ runner.os }}" == "Windows" ]]; then
+            cp "build/Release/sparse_matrix_demo.exe" "pack/sparse_matrix_windows_amd64.exe"
+          elif [[ "${{ runner.os }}" == "macOS" ]]; then
+            cp "build/sparse_matrix_demo" "pack/sparse_matrix_macos_amd64"
+            chmod +x pack/sparse_matrix_macos_amd64
+          else
+            cp "build/sparse_matrix_demo" "pack/sparse_matrix_linux_amd64"
+            chmod +x pack/sparse_matrix_linux_amd64
+          fi
+          ls -l pack
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sparse_matrix-${{ runner.os }}
+          path: pack/*
+          if-no-files-found: error
+
+  release:
+    name: Release
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: sparse_matrix-*
+          merge-multiple: true
+          path: dist
+
+      - name: List downloaded files
+        run: ls -R dist
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true
+
+  docs:
+    name: Build & Publish Doxygen
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install doxygen & graphviz
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen graphviz
+
+      - name: Generate docs
+        run: doxygen Doxyfile
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/html
+          force_orphan: true

@@ -1,0 +1,26 @@
+PROJECT_NAME           = "Sparse Matrix (Proxy)"
+PROJECT_BRIEF          = "Infinite sparse 2D matrix with Proxy pattern"
+OUTPUT_DIRECTORY       = docs
+OUTPUT_LANGUAGE        = English
+INPUT                  = include src
+RECURSIVE              = YES
+FILE_PATTERNS          = *.hpp *.h *.cpp
+
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = NO
+EXTRACT_STATIC         = NO
+
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+GENERATE_LATEX         = NO
+
+HAVE_DOT               = YES
+CLASS_DIAGRAMS         = YES
+DOT_IMAGE_FORMAT       = svg
+DOT_NUM_THREADS        = 2
+CALL_GRAPH             = NO
+CALLER_GRAPH           = NO
+
+QUIET                  = YES
+WARN_IF_UNDOCUMENTED   = NO
+WARNINGS               = YES
